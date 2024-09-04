@@ -1,8 +1,8 @@
 version: "3.7"
 
 networks:
-  backend-network:
-    external: true
+  users-addresses-network:
+    driver: bridge
 
 services:
   database_users-address:
@@ -10,7 +10,7 @@ services:
     container_name: database_users_addresses
     restart: always
     networks:
-      - backend-network
+      - users-addresses-network
     ports:
       - 5434:5432
     environment:
@@ -22,7 +22,7 @@ services:
   app:
     build: .
     networks:
-      - backend-network
+      - users-addresses-network
     container_name: app_users_addresses
     ports:
       - 3333:3333

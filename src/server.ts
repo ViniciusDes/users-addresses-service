@@ -1,6 +1,8 @@
-import express from "express";
+require("dotenv").config();
 
+import express from "express";
 import { Router, Request, Response } from "express";
+import { AppDataSource } from "./infra/database/data-source";
 
 const app = express();
 
@@ -14,4 +16,11 @@ route.get("/", (req: Request, res: Response) => {
 
 app.use(route);
 
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Conexão com o banco de dados estabelecida com sucesso!");
+  })
+  .catch((error) =>
+    console.error("Erro ao conectar ao banco de dados:", error)
+  );
 app.listen(3333, () => "server running");
