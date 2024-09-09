@@ -20,8 +20,8 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "build": "tsc",
-    "migration:create": "typeorm-ts-node-commonjs migration:create src/infra/database/migrations/$nameMigration -d src/infra/database/data-source.ts",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate src/infra/database/migrations/$nameMigration -d src/infra/database/data-source.ts",
+    "migration:create": "yarn typeorm migration:create src/infra/database/migrations/$nameMigration",
+    "migration:generate": "yarn typeorm migration:generate src/infra/database/migrations/$nameMigration",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/infra/database/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/infra/database/data-source.ts"
   }
