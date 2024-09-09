@@ -2,7 +2,7 @@ require("dotenv").config();
 
 import express from "express";
 import { Router, Request, Response } from "express";
-import { AppDataSource } from "./infra/database/data-source";
+import AppDataSource from "./infra/database/data-source";
 
 const app = express();
 
