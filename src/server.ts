@@ -1,20 +1,16 @@
 require("dotenv").config();
-
 import express from "express";
-import { Router, Request, Response } from "express";
 import AppDataSource from "./infra/database/data-source";
+import bodyParser from "body-parser";
+import makeSetupSwagger from "./swagger-setup";
+import { router as routes } from "./routes";
 
 const app = express();
-
-const route = Router();
-
+app.use(bodyParser.json());
 app.use(express.json());
+app.use(routes);
 
-route.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Service is running" });
-});
-
-app.use(route);
+makeSetupSwagger(app);
 
 AppDataSource.initialize()
   .then(() => {
