@@ -25,7 +25,7 @@
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "build": "tsc",
     "migration:create": "yarn typeorm migration:create src/infra/database/migrations/$nameMigration",
-    "migration:generate": "yarn typeorm migration:generate src/infra/database/migrations/$nameMigration",
+    "migration:generate": "yarn ts-node ./node_modules/typeorm/cli.js migration:generate src/infra/database/migrations/$nameMigration -d src/infra/database/data-source.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/infra/database/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/infra/database/data-source.ts"
   }

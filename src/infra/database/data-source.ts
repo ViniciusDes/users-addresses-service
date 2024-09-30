@@ -21,8 +21,8 @@ export function getConfig(isMigration: boolean = false) {
   }
   return {
     type: "postgres",
-    host: "database",
-    port: 5432,
+    host: "localhost",
+    port: 5434,
     username: process.env.USER_DB,
     password: process.env.PASSWORD_DB,
     database: process.env.NAME_DB,
