@@ -1,32 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, Column } from "typeorm";
 
-@Entity()
-export class Adresses {
-  @Column("number", {
+@Entity({
+  name: "addresses",
+})
+export class AdressesEntity {
+  @Column("int4", {
     name: "id",
     generated: "identity",
     primary: true,
   })
   id: number;
 
-  @Column("string", {
+  @Column("varchar", {
     name: "cep",
     nullable: false,
   })
   cep: string;
 
-  @Column("string", {
+  @Column("varchar", {
     name: "description",
     nullable: false,
   })
   description: string;
 
-  @Column("string", {
+  @Column("varchar", {
     name: "complement",
   })
   complement: string;
 
-  @Column("string", {
+  @Column("varchar", {
     name: "number",
   })
   number: string;
@@ -38,7 +40,7 @@ export class Adresses {
   })
   created_at: Date;
 
-  @Column("number", {
+  @Column("int4", {
     name: "user_id",
     primary: true,
     nullable: false,

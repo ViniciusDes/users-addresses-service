@@ -1,27 +1,29 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
-export class Users {
-  @Column("number", {
+@Entity({
+  name: "users",
+})
+export class UsersEntity {
+  @Column("int4", {
     name: "id",
     generated: "identity",
     primary: true,
   })
   id: number;
 
-  @Column("string", {
+  @Column("varchar", {
     name: "name",
     nullable: false,
   })
   name: string;
 
-  @Column("string", {
+  @Column("varchar", {
     name: "situation",
     nullable: false,
   })
   situation: string;
 
-  @Column("string", {
+  @Column("date", {
     name: "created_at",
     nullable: false,
   })
