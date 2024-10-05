@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { UsersService } from "../modules/users/services/users.service";
 
 const userRouter = express.Router();
 
@@ -43,9 +44,37 @@ const userRouter = express.Router();
  *        description: Clientes obtidos com sucesso
  */
 
-userRouter.get("/", (req: Request, res: Response) => {
+userRouter.get("/", async (req: Request, res: Response) => {
+  const userService = new UsersService();
+  const data = await userService.findUsers();
+
   res.status(200).json({
-    message: "here is a list of customers",
+    message: "List of users",
+    data: data,
+  });
+});
+
+userRouter.post("/", async (req: Request, res: Response) => {
+  const userService = new UsersService();
+  const bodyData = req.body;
+  const data = await userService.createUser(bodyData);
+
+  res.status(201).json({
+    message: "User created successfully",
+    data: data,
+  });
+});
+
+userRouter.patch("/:idUser", async (req: Request, res: Response) => {
+  const userService = new UsersService();
+  const bodyData = req.body;
+  const { idUser } = req.params;
+
+  const data = await userService.updateUser(+idUser, bodyData);
+
+  res.status(204).json({
+    message: "User updated successfully",
+    data: data,
   });
 });
 
