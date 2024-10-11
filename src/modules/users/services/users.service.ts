@@ -1,21 +1,32 @@
 import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
-import { UsersRepository } from "../repositories/users.repository";
+import { AuthService } from "./auth.service";
 
-export class UsersService {
-  private usersRepository: UsersRepository;
+export enum UserSituation {
+  DISABLED = "0",
+  ENABLE = "1",
+}
+export class UsersService extends AuthService {
   constructor() {
-    this.usersRepository = new UsersRepository();
+    super();
   }
 
   async findUsers() {
-    return this.usersRepository.getAll();
+    return this.usersRepository.getEspecificColumns([
+      "name",
+      "id",
+      "email",
+      "situation",
+      "created_at",
+    ]);
   }
 
   async createUser(userPayload: CreateUserDto) {
+    const password = this.createCryptoPassword(userPayload.password);
     return this.usersRepository.insert({
       ...userPayload,
-      situation: "1",
+      situation: UserSituation.ENABLE,
       created_at: new Date(),
+      password: password,
     });
   }
 

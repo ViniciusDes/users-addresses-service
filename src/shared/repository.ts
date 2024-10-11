@@ -4,6 +4,7 @@ import {
   WhereFindByInterface,
 } from "./repositories/abstract-repository";
 import connection from "../infra/database/data-source";
+
 import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
 
 export class LocalRepository<Entity extends ObjectLiteral>
@@ -35,5 +36,13 @@ export class LocalRepository<Entity extends ObjectLiteral>
 
   public getAll(): Promise<Entity[]> {
     return this.connection.getRepository(this.entity).find();
+  }
+
+  public getEspecificColumns(columns: Array<string>): Promise<Entity[]> {
+    return this.connection
+      .getRepository(this.entity)
+      .createQueryBuilder("entity")
+      .select([...columns])
+      .getRawMany();
   }
 }
