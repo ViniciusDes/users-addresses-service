@@ -4,11 +4,13 @@ import AppDataSource from "./infra/database/data-source";
 import bodyParser from "body-parser";
 import makeSetupSwagger from "./swagger-setup";
 import { router as routes } from "./routes/index";
+import ErrorHandler from "./middlewares/error-handler";
 
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(routes);
+app.use(ErrorHandler);
 
 makeSetupSwagger(app);
 

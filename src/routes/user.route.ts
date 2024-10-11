@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { UsersService } from "../modules/users/services/users.service";
 
 const userRouter = express.Router();
@@ -44,38 +44,69 @@ const userRouter = express.Router();
  *        description: Clientes obtidos com sucesso
  */
 
-userRouter.get("/", async (req: Request, res: Response) => {
+userRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
   const userService = new UsersService();
   const data = await userService.findUsers();
 
-  res.status(200).json({
-    message: "List of users",
-    data: data,
-  });
+  try {
+    res.status(200).json({
+      message: "List of users",
+      data: data,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-userRouter.post("/", async (req: Request, res: Response) => {
+userRouter.post(
+  "/",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userService = new UsersService();
+    const bodyData = req.body;
+    const data = await userService.createUser(bodyData);
+    try {
+      res.status(201).json({
+        message: "User created successfully",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+userRouter.post("/login", async (req: Request, res: Response, next) => {
   const userService = new UsersService();
   const bodyData = req.body;
-  const data = await userService.createUser(bodyData);
+  try {
+    const data = await userService.makeLokin(bodyData.email, bodyData.password);
 
-  res.status(201).json({
-    message: "User created successfully",
-    data: data,
-  });
+    res.status(201).json({
+      message: "User authenticated successfully",
+      data: data,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-userRouter.patch("/:idUser", async (req: Request, res: Response) => {
-  const userService = new UsersService();
-  const bodyData = req.body;
-  const { idUser } = req.params;
+userRouter.patch(
+  "/:idUser",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userService = new UsersService();
+    const bodyData = req.body;
+    const { idUser } = req.params;
 
-  const data = await userService.updateUser(+idUser, bodyData);
-
-  res.status(204).json({
-    message: "User updated successfully",
-    data: data,
-  });
-});
+    const data = await userService.updateUser(+idUser, bodyData);
+    try {
+      res.status(204).json({
+        message: "User updated successfully",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export default userRouter;
