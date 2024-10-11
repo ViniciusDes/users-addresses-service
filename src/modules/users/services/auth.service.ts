@@ -13,9 +13,10 @@ export class AuthService {
 
   async makeLokin(email: string, password: string) {
     let user: UserWithoutPassword;
+    const passwordDecrypt = this.createDecryptoPassword(password);
     [user] = await this.usersRepository.getBy({
       email: email,
-      password: password,
+      password: passwordDecrypt,
     });
 
     if (!user) throw new Error("Usuário ou senha inválidos");
@@ -52,6 +53,6 @@ export class AuthService {
   createDecryptoPassword(password: string) {
     const token = jwt.decode(password);
 
-    return token;
+    return String(token);
   }
 }
