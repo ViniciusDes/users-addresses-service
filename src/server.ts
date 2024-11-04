@@ -1,4 +1,7 @@
 require("dotenv").config();
+require("express-async-errors");
+import "reflect-metadata";
+import "./shared/container";
 import express from "express";
 import AppDataSource from "./infra/database/data-source";
 import bodyParser from "body-parser";

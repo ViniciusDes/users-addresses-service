@@ -1,51 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import { UsersService } from "../modules/users/services/users.service";
-
+import { AuthService } from "../modules/users/services/auth.service";
+import { container } from "tsyringe";
+// import { container } from "../shared/container";
 const userRouter = express.Router();
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - name
- *         - situacao
- *       properties:
- *         id:
- *           type: number
- *           description: The auto-generated id of the user
- *         name:
- *           type: string
- *           description: The name of user
- *         situacao:
- *           type: string
- *           description: The situation user
- *         criado_em:
- *           type: string
- *           format: date
- *           description: The created date
- *       example:
- *         id: 12
- *         name: Gael Bessa
- *         situacao: 1 - (Active)
- *         criado_em: 2020-03-10T04:05:06.157Z
- */
-/**
- * @swagger
- * tags:
- *   name: User
- * /users:
- *  get:
- *    description: Obtém a lista de clientes
- *    responses:
- *      '200':
- *        description: Clientes obtidos com sucesso
- */
-
 userRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  const userService = new UsersService();
+  const userService = container.resolve(UsersService);
   const data = await userService.findUsers();
 
   try {
@@ -61,7 +22,7 @@ userRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
 userRouter.post(
   "/",
   async (req: Request, res: Response, next: NextFunction) => {
-    const userService = new UsersService();
+    const userService = container.resolve(UsersService);
     const bodyData = req.body;
     const data = await userService.createUser(bodyData);
     try {
@@ -76,10 +37,11 @@ userRouter.post(
 );
 
 userRouter.post("/login", async (req: Request, res: Response, next) => {
-  const userService = new UsersService();
+  const authService = container.resolve(AuthService);
   const bodyData = req.body;
+
   try {
-    const data = await userService.makeLokin(bodyData.email, bodyData.password);
+    const data = await authService.makeLokin(bodyData.email, bodyData.password);
 
     res.status(201).json({
       message: "User authenticated successfully",
@@ -93,7 +55,7 @@ userRouter.post("/login", async (req: Request, res: Response, next) => {
 userRouter.patch(
   "/:idUser",
   async (req: Request, res: Response, next: NextFunction) => {
-    const userService = new UsersService();
+    const userService = container.resolve(UsersService);
     const bodyData = req.body;
     const { idUser } = req.params;
 
@@ -101,6 +63,24 @@ userRouter.patch(
     try {
       res.status(204).json({
         message: "User updated successfully",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+userRouter.delete(
+  "/:idUser",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userService = container.resolve(UsersService);
+    const { idUser } = req.params;
+
+    const data = await userService.deleteUser(idUser);
+    try {
+      res.status(204).json({
+        message: "User deleted successfully",
         data: data,
       });
     } catch (err) {

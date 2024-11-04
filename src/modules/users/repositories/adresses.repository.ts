@@ -1,8 +1,13 @@
+import { inject } from "tsyringe";
 import { AdressesEntity } from "../../../infra/database/entities/addresses.entity";
 import { LocalRepository } from "../../../shared/repository";
+import { DataSource } from "typeorm";
 
 export class AdressesRepository extends LocalRepository<AdressesEntity> {
-  constructor() {
-    super(AdressesEntity);
+  constructor(
+    @inject("dataSource")
+    private datasource: DataSource
+  ) {
+    super(AdressesEntity, datasource);
   }
 }

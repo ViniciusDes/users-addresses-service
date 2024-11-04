@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { UsersEntity } from "../../../infra/database/entities/users.entity";
 import { UsersRepository } from "../repositories/users.repository";
 import jwt from "jsonwebtoken";
@@ -5,11 +6,12 @@ import jwt from "jsonwebtoken";
 interface UserWithoutPassword extends Omit<UsersEntity, "password"> {
   password?: string;
 }
+@injectable()
 export class AuthService {
-  protected usersRepository: UsersRepository;
-  constructor() {
-    this.usersRepository = new UsersRepository();
-  }
+  constructor(
+    @inject("UsersRepository")
+    private usersRepository: UsersRepository
+  ) {}
 
   async makeLokin(email: string, password: string) {
     let user: UserWithoutPassword;
