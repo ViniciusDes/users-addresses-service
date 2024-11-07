@@ -1,23 +1,28 @@
 import express, { NextFunction, Request, Response } from "express";
-import { UsersService } from "../modules/users/services/users.service";
-import { AuthService } from "../modules/users/services/auth.service";
+import { UsersService } from "../modules/users/services/users/users.service";
+import { AuthService } from "../modules/users/services/auth/auth.service";
 import { container } from "tsyringe";
+import { isAuthenticated } from "../middlewares/is-authenticated";
 // import { container } from "../shared/container";
 const userRouter = express.Router();
 
-userRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  const userService = container.resolve(UsersService);
-  const data = await userService.findUsers();
+userRouter.get(
+  "/",
+  isAuthenticated,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userService = container.resolve(UsersService);
+    const data = await userService.findUsers();
 
-  try {
-    res.status(200).json({
-      message: "List of users",
-      data: data,
-    });
-  } catch (err) {
-    next(err);
+    try {
+      res.status(200).json({
+        message: "List of users",
+        data: data,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 userRouter.post(
   "/",

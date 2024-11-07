@@ -1,10 +1,9 @@
+import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
 import {
   AbstractRepository,
   PayloadToCreate,
   WhereFindByInterface,
-} from "./repositories/abstract-repository";
-
-import { DataSource, EntityTarget, ObjectLiteral } from "typeorm";
+} from "./abstract-repository";
 
 export class LocalRepository<Entity extends ObjectLiteral>
   implements AbstractRepository<Entity>
@@ -44,7 +43,6 @@ export class LocalRepository<Entity extends ObjectLiteral>
   }
 
   public getEspecificColumns(columns: Array<string>): Promise<Entity[]> {
-    console.log("repor", this.connection.getRepository(this.entity));
     return this.connection
       .getRepository(this.entity)
       .createQueryBuilder("entity")

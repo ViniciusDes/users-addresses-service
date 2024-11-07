@@ -1,12 +1,12 @@
 import "reflect-metadata";
-import { UsersEntity } from "../../../infra/database/entities/users.entity";
+import { UsersEntity } from "../../../../infra/database/entities/users.entity";
 import { UsersService } from "./users.service";
-import { UsersRepository } from "../repositories/users.repository";
-import { AuthService } from "./auth.service";
+import { UsersRepository } from "../../repositories/users/users.repository";
+import { AuthService } from "../auth/auth.service";
 import { DataSource } from "typeorm";
 
-jest.mock("../../../modules/users/repositories/users.repository");
-jest.mock("../../../modules/users/services/auth.service");
+jest.mock("../../repositories/users/users.repository");
+jest.mock("../auth/auth.service");
 describe("Users service suite", () => {
   let usersService: UsersService;
   let dataSourceMock: jest.Mocked<DataSource>;

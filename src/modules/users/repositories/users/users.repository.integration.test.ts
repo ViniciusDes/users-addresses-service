@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { UserSituation } from "../services/users.service";
-import dataSourceTests from "../../../infra/database/data-source-tests";
-import { UsersEntity } from "../../../infra/database/entities/users.entity";
+import { UserSituation } from "../../services/users/users.service";
+import dataSourceTests from "../../../../infra/database/data-source-tests";
+import { UsersEntity } from "../../../../infra/database/entities/users.entity";
 import { UsersRepository } from "./users.repository";
 
 describe("Users repository suite", () => {

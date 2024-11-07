@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { UsersEntity } from "../../../infra/database/entities/users.entity";
-import { LocalRepository } from "../../../shared/repository";
+import { UsersEntity } from "../../../../infra/database/entities/users.entity";
+import { LocalRepository } from "../../../../shared/database/repository";
 import { inject, injectable } from "tsyringe";
 import { DataSource } from "typeorm";
 @injectable()

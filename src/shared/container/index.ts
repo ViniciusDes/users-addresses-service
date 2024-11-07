@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import { UsersService } from "../../modules/users/services/users.service";
-import { UsersRepository } from "../../modules/users/repositories/users.repository";
+import { UsersService } from "../../modules/users/services/users/users.service";
+import { UsersRepository } from "../../modules/users/repositories/users/users.repository";
 import { container } from "tsyringe";
 import { DataSource } from "typeorm";
-import { AuthService } from "../../modules/users/services/auth.service";
+import { AuthService } from "../../modules/users/services/auth/auth.service";
 import dataSource from "../../infra/database/data-source";
 
 container.registerSingleton("UsersRepository", UsersRepository);

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
-import { CreateUserDto, UpdateUserDto } from "../dto/users.dto";
-import { UsersRepository } from "../repositories/users.repository";
-import { AuthService } from "./auth.service";
+import { CreateUserDto, UpdateUserDto } from "../../dto/users.dto";
+import { UsersRepository } from "../../repositories/users/users.repository";
+import { AuthService } from "../auth/auth.service";
 
 export enum UserSituation {
   DISABLED = "0",
@@ -29,9 +29,7 @@ export class UsersService {
   }
 
   async createUser(userPayload: CreateUserDto) {
-    const [userAlreadyExists] = await this.usersRepository.getBy({
-      email: userPayload.email,
-    });
+    const [userAlreadyExists] = await this.usersRepository.getBy({});
 
     if (userAlreadyExists) {
       throw new Error("User already exists");

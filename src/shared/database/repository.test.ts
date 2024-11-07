@@ -1,5 +1,5 @@
+import testsDataSource from "../../infra/database/data-source-tests";
 import { LocalRepository } from "./repository";
-import testsDataSource from "../infra/database/data-source-tests";
 class entityMock {
   name: string;
   age: number;
